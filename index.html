@@ -1,0 +1,250 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://unpkg.com/swiper@6.8.1/swiper-bundle.min.css">
+<script type="text/javascript" src="https://www.locusin.com/locus/js/jquery-3.6.0.min.js"></script>
+	
+<script type="text/javascript" src="https://unpkg.com/swiper@6.8.1/swiper-bundle.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-filter/0.5.17/angular-filter.js" > </script> 
+<script src="https://raw.githubusercontent.com/angular-ui/angular-ui-OLDREPO/master/modules/filters/unique/unique.js" > </script> <!--show only 1 result in 1 field-->
+<title>Assetto Corsa Competizione Fuel Cal</title>
+	
+<script>
+//arrays
+var stintL = [15,20,25,30,35,40,45,50,55,60,65,70];
+var nsx_fuel_consum = [
+	 {'id':0, 'track':'Silver Stone','consumtion':'3.55'},
+	 {'id':1, 'track':'Monza','consumtion':'3.45'},
+	 {'id':2, 'track':'Spa','consumtion':'4.1'},
+	 {'id':3, 'track':'Zolder','consumtion':'2.6'},
+	 {'id':4, 'track':'Misano','consumtion':'2.66'},
+	 {'id':5, 'track':'Mount Panorama','consumtion':'3.9'},
+	 {'id':6, 'track':'Brands Hatch','consumtion':'2.4'},
+	 {'id':7, 'track':'Barcelona','consumtion':'2.85'},
+	 {'id':8, 'track':'Imola','consumtion':'3.3'},
+	 {'id':9, 'track':'Paul Ricard','consumtion':'3.45'},
+	 {'id':10, 'track':'Zandvoort','consumtion':'2.66'},
+	 {'id':11, 'track':'Donington','consumtion':'3.2'},
+	 {'id':12, 'track':'Oulton Park','consumtion':'2.4'},
+	 {'id':13, 'track':'Snetterton','consumtion':'2.4'},
+	 {'id':14, 'track':'Kyalami','consumtion':'2.85'},
+	 {'id':15, 'track':'Suzuka Circuit','consumtion':'3.7'},
+	 {'id':16, 'track':'Laguna Seca','consumtion':'2.7'},
+	 {'id':17, 'track':'Nurburgring','consumtion':'3.2'},
+	 {'id':18, 'track':'Hungaroring','consumtion':'2.71'}
+];
+	
+//ng
+var cateAPP = angular.module('cateAPP',['angular.filter']);
+cateAPP.controller('CateListCtrl',function($scope, $sce) {
+	$scope.on = false;
+	$scope.stint = stintL;
+	$scope.array = nsx_fuel_consum;
+	
+	angular.element(function () { //similer to $(doc).load
+	  $scope.swiper = new Swiper(".tkSwi", {
+	    slidesPerView : 1.5,
+		spaceBetween : 2,
+		autoHeight : true,
+		  centeredSlides : true,
+		  centeredSlidesBounds : true,
+		  slideToClickedSlide : true
+	  });
+		
+	  var swiper = new Swiper(".lengSwi", {
+	    slidesPerView : 1.5,
+		spaceBetween : 2,
+		autoHeight : true,
+		  centeredSlides : true,
+		  centeredSlidesBounds : true,
+		  slideToClickedSlide : true
+	  });
+	});
+	
+	
+	$scope.funcT = function() {
+		//$scope.wtT = angular.element('.tkSwi .swiper-wrapper').find('.swiper-slide-active').attr('data-value');
+		$scope.wtL = angular.element('.lengSwi .swiper-wrapper').find('.swiper-slide-active').attr('data-value');
+		
+		//console.log($scope.swiper.realIndex);
+		
+		$scope.queryMinTOSec = $scope.wtL * 60;
+		$scope.consumtion = $scope.array[$scope.swiper.realIndex].consumtion;
+		
+		$scope.laps = Math.ceil($scope.queryMinTOSec / ((eval($scope.lapmin) * 60 ) + eval($scope.lapsec)));
+		
+		if($scope.rollingextra == true){
+			$scope.laps = $scope.laps + 1;
+		}
+		$scope.fuelneeded = Math.ceil($scope.consumtion * $scope.laps) + 1;
+		$scope.actualfuel = $scope.consumtion * $scope.laps;
+		
+		console.log( $scope.laps  + ' : ' + $scope.consumtion * $scope.laps + ' : ' + $scope.fuelneeded );
+		$scope.on = true;
+	}
+	
+	$scope.htmlAdText = function(text){ return $sce.trustAsHtml(text); };
+	
+});
+	
+</script>
+<style>
+	*{
+		color: #fff;
+	}
+	.container-fluid{
+		max-width: 400px;
+	}
+	select, select option, input{
+		color: #fff;
+		background-color: rgba(255, 0 ,0 ,0.5);
+		width: 100%;
+		height: 60px;
+		padding: 5px;
+		border: 0;
+		text-align: center;
+		font-size: 16px;
+		font-weight: bold;
+	}
+	h3{
+		margin: 15px auto;
+	}
+	.calBTN{
+		border-radius: 20px;
+		border:3px solid #f00;
+		background-color: #bb1700;
+		color: #fff;
+		font-weight: bold;
+		padding: 5px 20px;
+		margin: 30px auto;
+		text-align: center;
+		width: 260px;
+		display: block;
+		cursor: pointer;
+		font-size: 16px;
+		line-height: 30px;
+	}
+	.calBTN:hover{
+		text-decoration: none;
+		color: #fff;
+	}
+	.result{
+		display: none;
+	}
+	
+	.swiper-slide{
+		background-color: rgba(255, 0 ,0 ,0.5);
+		min-height: 60px;
+		text-align: center;
+		opacity: 0.5;
+		transition: all 0.4s ease;
+		
+		justify-content: center;
+		flex-direction: column;
+		display: flex;
+	}
+	.swiper-slide p{
+		margin-bottom: 0;
+		font-size: 18px;
+		font-weight: bold;
+		border-left: #f00 0px solid;
+	}
+	.swiper-slide.swiper-slide-active{
+		opacity: 1;
+		border-left: #f00 5px solid;
+	}
+	
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #fff;
+  opacity: 1; /* Firefox */
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: #fff;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+  color: #fff;
+}
+	
+	
+@media screen and (max-width: 767px){	
+	.container-fluid{
+		max-width: unset;
+	}
+}
+	
+</style>
+</head>
+
+<body ng-app="cateAPP" style="background-color: #000">
+<div class="container-fluid"  ng-controller="CateListCtrl">
+   <div class="row">
+	   <div class="col-xs-6 col-xs-offset-3 col-sm-8 col-sm-offset-2" style="padding: 20px 10px;"><img src="https://www.assettocorsa.it/competizione/wp-content/themes/fosfostrap5/_assets/build/img/logo-acc-gtwc.png" class="img-responsive"></div>
+      <div class="col-xs-12" style="padding: 0;">
+		  <!--Sidebar content ng-options="x.type for x in array"-->
+
+		  <div class="col-xs-12">
+			<h3>Car</h3>  
+		  	<p>NSX GT3 EVO<!-- : Aston Martin Racing V8 Vantage GT3--></p>
+		  </div>
+		  
+		  <div class="col-xs-12">
+			<h3>Track</h3>  
+		  	<div class="swiper-container tkSwi">
+			  <div class="swiper-wrapper">
+				<div class="swiper-slide" ng-repeat="x in array" data-value="{{x.id}}"><p>{{x.track}}</p></div>
+			  </div>
+			</div>
+		  </div>
+
+		  <div class="col-xs-12"> 
+			  <h3>Race Length</h3>
+			  
+			  <div class="swiper-container lengSwi">
+				  <div class="swiper-wrapper">
+					  <div class="swiper-slide" ng-repeat="y in stint" data-value="{{y}}"><p>{{y}}mins</p></div>
+				  </div>
+				</div>
+
+		  </div>
+		  
+		  <div class="clearfix"></div>
+		  
+		  <div class="col-xs-6">
+		  		<h3>Lap time</h3>
+			  <input ng-model="lapmin" placeholder="minute" type="number">
+		  </div>
+		  <div class="col-xs-6">
+		  		<h3>&nbsp;</h3>
+			  <input ng-model="lapsec" placeholder="secs" type="number">
+		  </div>
+
+		  <div class="col-xs-12" style="padding: 0;">
+		  	  <h3 class="col-xs-10">Extra lap rolling start</h3>
+			  <div class="col-xs-2"><input type="checkbox" id="scales" name="scales" ng-model="rollingextra"></div>
+			  
+		  </div>
+		  
+		  <div style="clear: both;"></div>
+		  <div class="col-xs-12"><a ng-click="funcT()" class="calBTN">Calculate</a></div>
+		  
+      </div>
+      <div class="col-xs-12" ng-class="{'result' : !on}">
+		  <div class="col-xs-6 text-center">LAPS<h1>{{laps}}</h1></div>
+		  <div class="col-xs-6 text-center">FUEL NEEDED<h1>{{fuelneeded}}L</h1></div>
+		  <div class="col-xs-12 text-center">ACTUAL CONSUMPTION<h1>{{actualfuel}}L</h1></div>
+      </div>
+   </div>
+</div>
+	<script>
+		
+
+    </script>
+</body>
+</html>
